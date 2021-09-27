@@ -1,6 +1,8 @@
 package mongo
 
-import "gopkg.in/mgo.v2"
+import (
+	"gopkg.in/mgo.v2"
+)
 
 type connect struct {
 	session *mgo.Session

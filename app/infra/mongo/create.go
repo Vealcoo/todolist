@@ -3,13 +3,19 @@ package mongo
 import (
 	"errors"
 	"todolist/app/domain/model"
+
+	"gopkg.in/mgo.v2/bson"
 )
 
-func (c *connect) Create(data *model.ListInfo) error {
+func (c *connect) Create(data *model.ListInfo) (interface{}, error) {
 	coll := c.session.DB(DB).C(C)
-	err := coll.Insert(data)
+	info, err := coll.Upsert(nil, data)
 	if err != nil {
-		return errors.New("create list failed")
+		return "", errors.New("create list failed")
 	}
-	return nil
+	if info.UpsertedId != nil {
+		x := info.UpsertedId.(bson.ObjectId)
+		data.ID = string(x)
+	}
+	return data.ID, nil
 }
