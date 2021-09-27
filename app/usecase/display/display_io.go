@@ -8,6 +8,6 @@ type DisplayInput struct {
 	Userid string
 }
 
-type DispalyOutput struct {
+type DisplayOutput struct {
 	Display []model.ListInfo
 }

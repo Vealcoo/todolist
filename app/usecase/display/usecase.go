@@ -14,8 +14,8 @@ func NewDisplayUsecase(listRepo repository.ListRepository) DisplayUsecase {
 	}
 }
 
-func (u *displayUsecase) Display(input *DisplayInput) (*DispalyOutput, error) {
-	output := new(DispalyOutput)
+func (u *displayUsecase) Display(input *DisplayInput) (*DisplayOutput, error) {
+	output := new(DisplayOutput)
 	output.Display, _ = u.listRepo.Display(input.Userid)
 
 	return output, nil
