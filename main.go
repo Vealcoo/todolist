@@ -1,6 +1,7 @@
 package main
 
 import (
+	"net/http"
 	"todolist/app/infra/jwttoken"
 	"todolist/app/usecase/create"
 	"todolist/app/usecase/delete"
@@ -32,24 +33,27 @@ type Server struct {
 }
 
 func listCreate(l *gin.Context) {
-	token := l.Request.Header.Get("Authorization")
+	// token := l.Request.Header.Get("Authorization")
 	info := create.CreateInput{}
 	l.BindJSON(&info)
 	create := new(Server)
 	create.createUsecase.Create(&info)
-	if jwttoken.AuthJWT(token, info.Userid) {
+	// if jwttoken.AuthJWT(token, info.Userid) {
 
-	}
+	// }
 }
 
 func listDelete(l *gin.Context) {
 	token := l.Request.Header.Get("Authorization")
 	info := delete.DeleteInput{}
 	l.BindJSON(&info)
-	delete := new(Server)
-	delete.deleteUsecase.Delete(&info)
 	if jwttoken.AuthJWT(token, info.Userid) {
-
+		delete := new(Server)
+		delete.deleteUsecase.Delete(&info)
+		l.JSON(http.StatusOK, gin.H{
+			"userid":  info.Userid,
+			"message": "listid:" + info.Listid + " " + "delete success!",
+		})
 	}
 }
 
@@ -57,10 +61,13 @@ func listUpdate(l *gin.Context) {
 	token := l.Request.Header.Get("Authorization")
 	info := update.UpdateInput{}
 	l.BindJSON(&info)
-	update := new(Server)
-	update.updateUsecase.Update(&info)
 	if jwttoken.AuthJWT(token, info.Userid) {
-
+		update := new(Server)
+		update.updateUsecase.Update(&info)
+		l.JSON(http.StatusOK, gin.H{
+			"userid":  info.Userid,
+			"message": "listid:" + info.Listid + " " + "update success!",
+		})
 	}
 }
 
@@ -68,9 +75,9 @@ func listDisplay(l *gin.Context) {
 	token := l.Request.Header.Get("Authorization")
 	info := display.DisplayInput{}
 	l.BindJSON(&info)
-	display := new(Server)
-	display.displayUsecase.Display(&info)
 	if jwttoken.AuthJWT(token, info.Userid) {
-
+		display := new(Server)
+		output, _ := display.displayUsecase.Display(&info)
+		l.JSON(http.StatusOK, output)
 	}
 }

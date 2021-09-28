@@ -10,5 +10,5 @@ type CreateInput struct {
 }
 
 type CreateOutput struct {
-	ID string
+	Listid string
 }

@@ -30,14 +30,12 @@ func (u *createUsecase) Create(input *CreateInput) (*CreateOutput, error) {
 		return nil, err
 	}
 
-	if err := u.listRepo.Create(list); err != nil {
+	listid, err := u.listRepo.Create(list)
+	if err != nil {
 		return nil, err
 	}
 
-	// if oid, ok := result.InsertedID.(primitive.ObjectID); ok {
-	// 	return c.JSON(http.StatusCreated, map[string]interface{}{
-	// 		"id": oid.Hex(),
-	// 	})
-	// }
+	output.Listid = listid
+
 	return output, nil
 }

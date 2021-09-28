@@ -3,7 +3,7 @@ package repository
 import "todolist/app/domain/model"
 
 type ListRepository interface {
-	Create(data *model.ListInfo) error
+	Create(data *model.ListInfo) (string, error)
 
 	Delete(listid string) error
 
