@@ -7,7 +7,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-func (c *connect) Create(data *model.ListInfo) (interface{}, error) {
+func (c *connect) Create(data *model.ListInfo) (string, error) {
 	coll := c.session.DB(DB).C(C)
 	info, err := coll.Upsert(nil, data)
 	if err != nil {

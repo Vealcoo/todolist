@@ -13,3 +13,10 @@ func NewDeleteUsecase(listRepo repository.ListRepository) DeleteUsecase {
 		listRepo: listRepo,
 	}
 }
+
+func (u *deleteUsecase) Delete(input *DeleteInput) error {
+	if err := u.listRepo.Delete(input.Listid); err != nil {
+		return err
+	}
+	return nil
+}
